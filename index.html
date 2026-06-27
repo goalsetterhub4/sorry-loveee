@@ -3,468 +3,208 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>I'm Sorry, My Love ❤️</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <title>For Minahil</title>
     <style>
-        /* Premium Fonts & Global Styles */
-        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Poppins:wght@300;400;600&display=swap');
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        body {
-            background-color: #0d0204;
-            color: #ffffff;
-            font-family: 'Poppins', sans-serif;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow-x: hidden;
-            position: relative;
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #000;
+            font-family: 'Courier New', Courier, monospace;
         }
 
-        /* Floating Hearts Background */
-        .hearts-container {
-            position: fixed;
+        canvas {
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            pointer-events: none;
             z-index: 1;
-            overflow: hidden;
         }
 
-        .floating-heart {
+        #overlay-container {
             position: absolute;
-            bottom: -20px;
-            color: rgba(231, 60, 126, 0.4);
-            font-size: 14px;
-            animation: floatUp linear infinite;
-        }
-
-        @keyframes floatUp {
-            0% {
-                transform: translateY(0) scale(0) rotate(0deg);
-                opacity: 0;
-            }
-            10% { opacity: 0.7; }
-            90% { opacity: 0.7; }
-            100% {
-                transform: translateY(-105vh) scale(1.3) rotate(360deg);
-                opacity: 0;
-            }
-        }
-
-        /* Main Container & Glassmorphic Cards */
-        .main-container {
-            position: relative;
-            z-index: 5;
-            width: 90%;
-            max-width: 600px;
-            margin: 20px 0;
-        }
-
-        .card {
-            background: rgba(20, 5, 8, 0.85);
-            border: 1px solid rgba(231, 60, 126, 0.25);
-            border-radius: 20px;
-            padding: 40px 30px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9), 0 0 30px rgba(231, 60, 126, 0.1);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
             text-align: center;
-            display: none;
-            opacity: 0;
-            transform: translateY(30px) scale(0.95);
-            transition: all 0.5s ease-in-out;
+            width: 100%;
+            pointer-events: none;
         }
 
-        .card.active {
+        .animated-text {
+            font-size: 5rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-shadow: 0 0 20px #ff3388, 0 0 30px #ff3388;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all 0.5s ease-in-out;
+            display: none;
+        }
+
+        .animated-text.show {
             display: block;
             opacity: 1;
-            transform: translateY(0) scale(1);
+            transform: scale(1);
         }
 
-        /* Typography */
-        .main-title {
-            font-family: 'Cinzel', serif;
-            font-size: 2.8rem;
-            letter-spacing: 2px;
-            margin-bottom: 15px;
-            color: #ffffff;
-            text-shadow: 0 0 15px rgba(231, 60, 126, 0.6);
-        }
-
-        .section-title {
-            font-family: 'Cinzel', serif;
-            font-size: 1.8rem;
-            margin-bottom: 25px;
-            color: #e73c7e;
-            text-shadow: 0 0 10px rgba(231, 60, 126, 0.4);
-        }
-
-        .subtitle {
-            font-size: 1rem;
-            color: #cccccc;
-            line-height: 1.6;
-            margin-bottom: 30px;
-            font-weight: 300;
-        }
-
-        .letter-text {
-            font-size: 1.05rem;
-            line-height: 1.8;
-            margin-bottom: 20px;
-            color: #e0e0e0;
-            text-align: justify;
-        }
-
-        /* Premium Buttons */
-        .primary-btn {
-            background: transparent;
-            color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            padding: 12px 35px;
-            font-family: 'Poppins', sans-serif;
-            font-size: 0.95rem;
-            letter-spacing: 1px;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            outline: none;
-            margin-top: 20px;
-        }
-
-        .primary-btn:hover {
-            background: #ffffff;
-            color: #0d0204;
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
-            transform: translateY(-2px);
-        }
-
-        .pulse {
-            animation: buttonPulse 2s infinite;
-        }
-
-        @keyframes buttonPulse {
-            0% { box-shadow: 0 0 0 0 rgba(231, 60, 126, 0.4); }
-            70% { box-shadow: 0 0 0 15px rgba(231, 60, 126, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(231, 60, 126, 0); }
-        }
-
-        /* UNIQUE INTERACTIVE MEMORIES CARDS (No Images Required) */
-        .memories-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-
-        .memory-box {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(231, 60, 126, 0.2);
-            border-radius: 12px;
-            padding: 25px 15px;
-            transition: all 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .memory-box:hover {
-            transform: scale(1.05);
-            background: rgba(231, 60, 126, 0.1);
-            border-color: #e73c7e;
-            box-shadow: 0 0 15px rgba(231, 60, 126, 0.3);
-        }
-
-        .memory-icon {
-            font-size: 2rem;
-            color: #e73c7e;
-            margin-bottom: 12px;
-        }
-
-        .memory-text {
-            font-size: 0.95rem;
-            font-weight: 400;
-            color: #f0f0f0;
-            line-height: 1.4;
-        }
-
-        /* Reasons Layout */
-        .reasons-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            text-align: left;
-            margin-bottom: 30px;
-            font-size: 0.85rem;
-        }
-
-        .reason-item {
-            background: rgba(255, 255, 255, 0.03);
-            padding: 10px;
-            border-radius: 8px;
-            border-left: 3px solid #e73c7e;
-            line-height: 1.4;
-        }
-
-        /* Promise Box */
-        .promise-box {
-            border: 1px dashed rgba(231, 60, 126, 0.4);
-            padding: 25px;
-            border-radius: 15px;
-            background: rgba(231, 60, 126, 0.02);
-            margin-bottom: 30px;
-        }
-
-        .promise-text {
-            font-style: italic;
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: #f0f0f0;
-        }
-
-        /* Interactive Question Buttons */
-        .btn-group {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 40px;
+        /* Heart Container and Text Styling */
+        .heart-container {
+            display: none;
             position: relative;
-            height: 100px;
+            animation: pulse 1.2s infinite;
         }
 
-        .action-btn {
-            padding: 12px 40px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            border-radius: 30px;
-            cursor: pointer;
-            border: none;
-            transition: transform 0.2s ease;
+        .heart-container.show {
+            display: inline-block;
         }
 
-        .yes-btn {
-            background: #ff3366;
-            color: white;
-            box-shadow: 0 0 20px rgba(255, 51, 102, 0.4);
+        .heart-svg {
+            width: 350px;
+            height: 350px;
+            filter: drop-shadow(0 0 25px #ff3388);
         }
 
-        .no-btn {
-            background: #444;
-            color: #ccc;
+        .heart-text {
             position: absolute;
+            top: 48%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #ffffff;
+            font-size: 1.8rem;
+            font-weight: bold;
+            white-space: nowrap;
+            text-shadow: 0 0 10px #ff3388, 0 0 20px #000;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        /* Dynamic Icons & Emojis */
-        .heart-pulse-icon {
-            font-size: 3.5rem;
-            color: #e73c7e;
-            animation: heartBeat 1.2s infinite;
-            margin-bottom: 15px;
-        }
-
-        @keyframes heartBeat {
+        @keyframes pulse {
             0% { transform: scale(1); }
-            20% { transform: scale(1.1); }
-            40% { transform: scale(1); }
-            60% { transform: scale(1.15); }
+            50% { transform: scale(1.08); }
             100% { transform: scale(1); }
         }
 
-        .footer-icons {
-            margin-top: 30px;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            color: rgba(255,255,255,0.2);
-            font-size: 1.2rem;
-        }
-
-        .celebration-emojis {
-            font-size: 3rem;
-            margin-bottom: 15px;
-            animation: bounce 1s infinite alternate;
-        }
-
-        @keyframes bounce {
-            from { transform: translateY(0); }
-            to { transform: translateY(-10px); }
-        }
-
-        @media (max-width: 500px) {
-            .memories-grid, .reasons-grid { grid-template-columns: 1fr; }
-            .main-title { font-size: 2rem; }
-            .btn-group { gap: 20px; }
+        @media (max-width: 600px) {
+            .animated-text { font-size: 3rem; }
+            .heart-svg { width: 280px; height: 280px; }
+            .heart-text { font-size: 1.3rem; }
         }
     </style>
 </head>
 <body>
 
-    <div class="hearts-container" id="heartsContainer"></div>
+    <canvas id="matrixCanvas"></canvas>
 
-    <div class="main-container">
+    <div id="overlay-container">
+        <div id="text-display" class="animated-text"></div>
         
-        <div class="card active" id="sec-landing">
-            <div class="heart-pulse-icon">❤️</div>
-            <h1 class="main-title">I am sorry baby</h1>
-            <p class="subtitle">I never meant to hurt you. My world is empty without your light. Please give me a chance to explain.</p>
-            <button class="primary-btn" onclick="nextSection('sec-letter')">Open My Heart</button>
-            <div class="footer-icons">
-                <i class="fa-solid fa-heart"></i>
-                <i class="fa-solid fa-envelope"></i>
-                <i class="fa-solid fa-face-sad-tear"></i>
-            </div>
+        <!-- Heart Section -->
+        <div id="heart-display" class="heart-container">
+            <svg class="heart-svg" viewBox="0 0 32 29.6">
+                <path d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2
+                c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z" fill="none" stroke="#ff3388" stroke-width="1.5" stroke-dasharray="2 1"/>
+            </svg>
+            <div class="heart-text">I Love You ❤️ Minahil</div>
         </div>
-
-        <div class="card" id="sec-letter">
-            <h2 class="section-title"><i class="fa-solid fa-envelope-open-text"></i> A Letter To You...</h2>
-            <p class="letter-text">
-                I've spent hours thinking about how I hurt you. It was never my intention, but I realize now how my thoughtlessness affected your peace.
-            </p>
-            <p class="letter-text">
-                You are the most precious person in my life. I don't just want to say "sorry"—I want to prove to you that I can be the partner you truly deserve.
-            </p>
-            <p class="letter-text">
-                Please walk through these memories and reasons with me, and remember the love we share.
-            </p>
-            <button class="primary-btn" onclick="nextSection('sec-memories')">Our Special Moments</button>
-        </div>
-
-        <div class="card" id="sec-memories">
-            <h2 class="section-title">Moments That Define Us</h2>
-            <p class="subtitle" style="margin-bottom: 20px; font-size: 0.9rem;">The little things that stay in my heart forever...</p>
-            
-            <div class="memories-grid">
-                <div class="memory-box">
-                    <div class="memory-icon"><i class="fa-solid fa-comments"></i></div>
-                    <div class="memory-text">Our First Long Conversation</div>
-                </div>
-                <div class="memory-box">
-                    <div class="memory-icon"><i class="fa-solid fa-face-laugh-beam"></i></div>
-                    <div class="memory-text">When We Laughed Until We Cried</div>
-                </div>
-                <div class="memory-box">
-                    <div class="memory-icon"><i class="fa-solid fa-star"></i></div>
-                    <div class="memory-text">The Day You Made Me Feel So Special</div>
-                </div>
-                <div class="memory-box">
-                    <div class="memory-icon"><i class="fa-solid fa-infinity"></i></div>
-                    <div class="memory-text">Every Late Night Chat & Vow</div>
-                </div>
-            </div>
-            <button class="primary-btn" onclick="nextSection('sec-reasons')">You Are Special</button>
-        </div>
-
-        <div class="card" id="sec-reasons">
-            <h2 class="section-title">10 Reasons You're My Everything</h2>
-            <div class="reasons-grid">
-                <div class="reason-item"><strong>1. Your Kindness:</strong> The way you care for every living soul.</div>
-                <div class="reason-item"><strong>2. Your Smile:</strong> The light that guides me home.</div>
-                <div class="reason-item"><strong>3. Your Intelligence:</strong> I learn something new from you every day.</div>
-                <div class="reason-item"><strong>4. Your Voice:</strong> My favorite melody in the world.</div>
-                <div class="reason-item"><strong>5. Your Patience:</strong> Especially when it's difficult to handle me.</div>
-                <div class="reason-item"><strong>6. Your Strength:</strong> How you handle life's storms with grace.</div>
-                <div class="reason-item"><strong>7. Your Sense of Humor:</strong> Nobody makes me laugh the way you do.</div>
-                <div class="reason-item"><strong>8. Your Eyes:</strong> Entire galaxies are hidden in them.</div>
-                <div class="reason-item"><strong>9. Your Passion:</strong> How your eyes light up talking about your dreams.</div>
-                <div class="reason-item"><strong>10. Your Soul:</strong> Pure, beautiful, and meant for mine.</div>
-            </div>
-            <button class="primary-btn" onclick="nextSection('sec-promise')">The Promise</button>
-        </div>
-
-        <div class="card" id="sec-promise">
-            <div class="promise-box">
-                <h2 class="section-title">My Promise</h2>
-                <p class="promise-text">
-                    "I promise to be more mindful of your feelings, to listen with all my heart, and to never let a day go by without making you feel loved."
-                </p>
-            </div>
-            <button class="primary-btn pulse" onclick="nextSection('sec-question')">The Big Question?</button>
-        </div>
-
-        <div class="card" id="sec-question">
-            <h2 class="main-title" style="font-size: 2.5rem; margin-bottom: 40px;">Will you forgive me?</h2>
-            <div class="btn-group">
-                <button class="action-btn yes-btn" onclick="nextSection('sec-thanks')">YES</button>
-                <button class="action-btn no-btn" id="noBtn">No</button>
-            </div>
-        </div>
-
-        <div class="card" id="sec-thanks">
-            <div class="celebration-emojis">🎆✨🎉</div>
-            <h1 class="main-title" style="color: #ffd700;">THANK YOU!</h1>
-            <p class="subtitle" style="font-size: 1.2rem;">"You are my festival of lights. Thank you for giving us another chance."</p>
-            <div class="heart-pulse-icon" style="font-size: 4rem; color: #ff3366; margin-top: 20px;">❤️</div>
-        </div>
-
     </div>
 
     <script>
-        // Smooth multi-step page switching
-        function nextSection(nextCardId) {
-            const currentCard = document.querySelector('.card.active');
-            const nextCard = document.getElementById(nextCardId);
-            
-            if (currentCard && nextCard) {
-                currentCard.style.opacity = '0';
-                currentCard.style.transform = 'translateY(-20px) scale(0.95)';
-                
-                setTimeout(() => {
-                    currentCard.classList.remove('active');
-                    nextCard.classList.add('active');
-                    
-                    setTimeout(() => {
-                        nextCard.style.opacity = '1';
-                        nextCard.style.transform = 'translateY(0) scale(1)';
-                    }, 50);
-                }, 400);
+        // --- Matrix Background Setup ---
+        const canvas = document.getElementById('matrixCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        // Mix of romantic words and letters for the digital rain background
+        const alphabet = "ILOVEYOUMYLOVE01💞❤️✨";
+        const fontSize = 16;
+        let columns = canvas.width / fontSize;
+        let rainDrops = Array(Math.floor(columns)).fill(1);
+
+        window.addEventListener('resize', () => {
+            columns = canvas.width / fontSize;
+            rainDrops = Array(Math.floor(columns)).fill(1);
+        });
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.08)'; // Creates the trailing trail effect
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Neon pink / magenta code color matching the video
+            ctx.fillStyle = '#ff3388'; 
+            ctx.font = fontSize + 'px monospace';
+
+            for (let i = 0; i < rainDrops.length; i++) {
+                const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+                ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
+
+                if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    rainDrops[i] = 0;
+                }
+                rainDrops[i]++;
             }
         }
 
-        // Generate background hearts automatically
-        function createFloatingHearts() {
-            const container = document.getElementById('heartsContainer');
-            if(!container) return;
-            const heartIcons = ['❤️', '💖', '💕', '✨', '🌸'];
-            
-            const heart = document.createElement('div');
-            heart.classList.add('floating-heart');
-            
-            heart.innerText = heartIcons[Math.floor(Math.random() * heartIcons.length)];
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
-            heart.style.fontSize = (Math.random() * 15 + 12) + 'px';
-            
-            container.appendChild(heart);
-            
-            setTimeout(() => { heart.remove(); }, 7000);
-        }
-        setInterval(createFloatingHearts, 250);
+        setInterval(drawMatrix, 33); // Smooth ~30fps rendering
 
-        // Runaway 'No' Button Logic
-        const noBtn = document.getElementById('noBtn');
-        function moveNoButton() {
-            const maxX = 140;
-            const maxY = 35;
-            const randomX = (Math.random() * maxX * 2) - maxX;
-            const randomY = (Math.random() * maxY * 2) - maxY;
-            noBtn.style.transform = `translate(${randomX}px, ${randomY}px)`;
+        // --- Sequence Timer / Logic ---
+        const textDisplay = document.getElementById('text-display');
+        const heartDisplay = document.getElementById('heart-display');
+
+        // Timings match the beat and pace of the video
+        const sequence = [
+            { text: "3", delay: 1000 },
+            { text: "2", delay: 1000 },
+            { text: "1", delay: 1000 },
+            { text: "You", delay: 800 },
+            { text: "Are", delay: 800 },
+            { text: "My", delay: 800 },
+            { text: "Love", delay: 1000 },
+            { heart: true } // Final screen trigger
+        ];
+
+        let currentStep = 0;
+
+        function runSequence() {
+            if (currentStep < sequence.length) {
+                const step = sequence[currentStep];
+
+                // Hide previous text
+                textDisplay.classList.remove('show');
+
+                setTimeout(() => {
+                    if (step.heart) {
+                        // Display the Heart with customized text
+                        heartDisplay.classList.add('show');
+                    } else {
+                        // Display next text item
+                        textDisplay.innerText = step.text;
+                        textDisplay.classList.add('show');
+                        
+                        currentStep++;
+                        setTimeout(runSequence, step.delay);
+                    }
+                }, 150); // Small buffer for CSS transition reset
+            }
         }
 
-        noBtn.addEventListener('mouseover', moveNoButton);
-        noBtn.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            moveNoButton();
-        });
+        // Starts the sequence shortly after page loads
+        window.onload = () => {
+            setTimeout(runSequence, 800);
+        };
     </script>
 </body>
 </html>
